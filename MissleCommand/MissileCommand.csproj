@@ -18,4 +18,10 @@
     <ProjectReference Include="..\MCCore\MCCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="assets\sprites\bomber.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

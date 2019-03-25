@@ -10,5 +10,7 @@ namespace ILCrawford.MCGame.MissileCommand.Models
         public Vector2 speed;
 
         public bool active;
+
+        public Raylib.Texture2D texture2D;
     }
 }

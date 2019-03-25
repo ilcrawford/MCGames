@@ -120,6 +120,7 @@ namespace ILCrawford.MCGame.MissileCommand
             plane[0].speed = new Vector2(0, 0);
             plane[0].position = new Vector2(0, 0);
             plane[0].active = false;
+            plane[0].texture2D = LoadTexture(".\\assets\\sprites\\bomber.png");
 
             // Initialize buildings and launchers
             int sparcing = screenWidth / (LAUNCHERS_AMOUNT + BUILDINGS_AMOUNT + 1);
@@ -405,10 +406,13 @@ namespace ILCrawford.MCGame.MissileCommand
                 // Draw score
                 DrawText(String.Format("SCORE {0}", score), 20, 20, 40, LIGHTGRAY);
 
+                //draw plane
                 if (plane[0].active)
                 {
-                    DrawRectangle((int)plane[0].position.x, (int)plane[0].position.y, 100, 100, RED);
 
+                    //DrawRectangle((int)plane[0].position.x, (int)plane[0].position.y, 100, 100, RED);
+                    DrawTexture(plane[0].texture2D, (int)plane[0].position.x, (int)plane[0].position.y, RAYWHITE);
+                    
                 }
 
                 if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 40) / 2, screenHeight / 2 - 40, 40, GRAY);
