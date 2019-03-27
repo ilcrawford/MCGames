@@ -91,36 +91,62 @@ namespace ILCrawford.MCGame.MissileCommand
             // Initialize missiles
             for (int i = 0; i < MAX_MISSILES; i++)
             {
-                missile[i].origin = new Vector2(0, 0);
-                missile[i].speed = new Vector2(0, 0);
-                missile[i].position = new Vector2(0, 0);
+                missile[i] = new Missile
+                {
+                    origin = new Vector2(0, 0),
+                    speed = new Vector2(0, 0),
+                    position = new Vector2(0, 0),
+                    active = false
+                };
+            }
 
-                missile[i].active = false;
+            for (int i = 0;i < BUILDINGS_AMOUNT;i++)
+            {
+                building[i] = new Building();
             }
 
             // Initialize interceptors
             for (int i = 0; i < MAX_INTERCEPTORS; i++)
             {
-                interceptor[i].origin = new Vector2(0, 0);
-                interceptor[i].speed = new Vector2(0, 0);
-                interceptor[i].position = new Vector2(0, 0);
-
-                interceptor[i].active = false;
+                interceptor[i] = new Interceptor
+                {
+                    origin = new Vector2(0, 0),
+                    speed = new Vector2(0, 0),
+                    position = new Vector2(0, 0),
+                    active = false
+                };
             }
 
             // Initialize explosions
             for (int i = 0; i < MAX_EXPLOSIONS; i++)
             {
-                explosion[i].position = new Vector2(0, 0);
-                explosion[i].frame = 0;
-                explosion[i].active = false;
+                explosion[i] = new Explosion
+                {
+                    position = new Vector2(0, 0),
+                    frame = 0,
+                    active = false
+                };
+            };
+
+            for(int i=0; i < LAUNCHERS_AMOUNT; i++)
+            {
+                launcher[i] = new Launcher
+                {
+                    position = new Vector2(0, 0),
+                    active = false
+                };
             }
 
-            plane[0].position = new Vector2(0, 0);
-            plane[0].speed = new Vector2(0, 0);
-            plane[0].position = new Vector2(0, 0);
-            plane[0].active = false;
-            plane[0].texture2D = LoadTexture(".\\assets\\sprites\\bomber.png");
+
+            plane[0] = new Plane
+            {
+                position = new Vector2(0, 0),
+                speed = new Vector2(0, 0),
+                active = false,
+                texture2D = LoadTexture(".\\assets\\sprites\\bomber.png")
+            };
+
+            
 
             // Initialize buildings and launchers
             int sparcing = screenWidth / (LAUNCHERS_AMOUNT + BUILDINGS_AMOUNT + 1);

@@ -2,7 +2,7 @@
 
 namespace ILCrawford.MCGame.MissileCommand.Models
 {
-    struct Launcher
+    class Launcher
     {
         public Vector2 position;
         public bool active;

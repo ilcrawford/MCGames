@@ -2,7 +2,7 @@
 
 namespace ILCrawford.MCGame.MissileCommand.Models
 {
-    struct Plane
+    class Plane
     {
         public Vector2 origin;
         public Vector2 position;

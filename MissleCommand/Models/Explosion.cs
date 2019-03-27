@@ -2,7 +2,7 @@
 
 namespace ILCrawford.MCGame.MissileCommand.Models
 {
-    struct Explosion
+    class Explosion
     {
         public Vector2 position;
         public float radiusMultiplier;
