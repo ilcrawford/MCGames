@@ -22,17 +22,17 @@ namespace ILCrawford.MCGame.MissileCommand
 
         private const int LAUNCHER_SIZE = 80;
         private const int BUILDING_SIZE = 60;
+
         private const int EXPLOSION_RADIUS = 40;
 
         private const int MISSILE_SPEED = 1;
         private const int MISSILE_LAUNCH_FRAMES = 80;
-        private const int INTERCEPTOR_SPEED = 10;
-        private const int EXPLOSION_INCREASE_TIME = 90;          // In frames
-        private const int EXPLOSION_TOTAL_TIME = 210;         // In frames
+       
+        
 
         private static Color EXPLOSION_COLOR = new Color(125, 125, 125, 125);
-        static int screenWidth = 1500;
-        static int screenHeight = 1000;
+        static int screenWidth = 800;
+        static int screenHeight = 600;
 
         static int framesCounter = 0;
         static bool gameOver = false;
@@ -57,10 +57,12 @@ namespace ILCrawford.MCGame.MissileCommand
             // Initialization (Note windowTitle is unused on Android)
             //---------------------------------------------------------
             InitWindow(screenWidth, screenHeight, "sample game: missile commander");
+            
 
             InitGame();
 
             SetTargetFPS(60);
+           
             //--------------------------------------------------------------------------------------
 
             // Main game loop
@@ -103,6 +105,7 @@ namespace ILCrawford.MCGame.MissileCommand
             for (int i = 0;i < BUILDINGS_AMOUNT;i++)
             {
                 building[i] = new Building();
+                building[i].texture2D = LoadTexture(".\\assets\\sprites\\Building1.png");
             }
 
             // Initialize interceptors
@@ -186,27 +189,14 @@ namespace ILCrawford.MCGame.MissileCommand
                     {
                         if (interceptor[i].active)
                         {
-                            // Update position
-                            interceptor[i].position.x += interceptor[i].speed.x;
-                            interceptor[i].position.y += interceptor[i].speed.y;
-
-                            // Distance to objective
-                            distance = Math.Sqrt(Math.Pow(interceptor[i].position.x - interceptor[i].objective.x, 2) +
-                                             Math.Pow(interceptor[i].position.y - interceptor[i].objective.y, 2));
-
-                            if (distance < INTERCEPTOR_SPEED)
+                            interceptor[i].Update();
+                            if (interceptor[i].arrived)
                             {
-                                // Interceptor dissapears
-                                interceptor[i].active = false;
-
-                                // Explosion
                                 explosion[explosionIndex].position = interceptor[i].position;
                                 explosion[explosionIndex].active = true;
                                 explosion[explosionIndex].frame = 0;
                                 explosionIndex++;
                                 if (explosionIndex == MAX_EXPLOSIONS) explosionIndex = 0;
-
-                                break;
                             }
                         }
                     }
@@ -336,18 +326,7 @@ namespace ILCrawford.MCGame.MissileCommand
                     // Explosions update
                     for (int i = 0; i < MAX_EXPLOSIONS; i++)
                     {
-                        if (explosion[i].active)
-                        {
-                            explosion[i].frame++;
-
-                            if (explosion[i].frame <= EXPLOSION_INCREASE_TIME) explosion[i].radiusMultiplier = explosion[i].frame / (float)EXPLOSION_INCREASE_TIME;
-                            else if (explosion[i].frame <= EXPLOSION_TOTAL_TIME) explosion[i].radiusMultiplier = 1 - (explosion[i].frame - (float)EXPLOSION_INCREASE_TIME) / (float)EXPLOSION_TOTAL_TIME;
-                            else
-                            {
-                                explosion[i].frame = 0;
-                                explosion[i].active = false;
-                            }
-                        }
+                        (explosion[i] as IEntity).Update();
                     }
 
                     // Fire logic
@@ -426,7 +405,11 @@ namespace ILCrawford.MCGame.MissileCommand
 
                 for (int i = 0; i < BUILDINGS_AMOUNT; i++)
                 {
-                    if (building[i].active) DrawRectangle((int)building[i].position.x - BUILDING_SIZE / 2, (int)building[i].position.y - BUILDING_SIZE / 2, BUILDING_SIZE, BUILDING_SIZE, LIGHTGRAY);
+                    if (building[i].active)
+                    {
+                        DrawTexture(building[i].texture2D, (int)building[i].position.x - 35, (int)building[i].position.y - 50, RAYWHITE);
+                    }
+                    //DrawRectangle((int)building[i].position.x - BUILDING_SIZE / 2, (int)building[i].position.y - BUILDING_SIZE / 2, BUILDING_SIZE, BUILDING_SIZE, LIGHTGRAY);
                 }
 
                 // Draw score
@@ -491,8 +474,8 @@ namespace ILCrawford.MCGame.MissileCommand
                 module = (float)Math.Sqrt(Math.Pow(interceptor[interceptorNumber].objective.x - interceptor[interceptorNumber].origin.x, 2) +
                                Math.Pow(interceptor[interceptorNumber].objective.y - interceptor[interceptorNumber].origin.y, 2));
 
-                sideX = (interceptor[interceptorNumber].objective.x - interceptor[interceptorNumber].origin.x) * INTERCEPTOR_SPEED / module;
-                sideY = (interceptor[interceptorNumber].objective.y - interceptor[interceptorNumber].origin.y) * INTERCEPTOR_SPEED / module;
+                sideX = (interceptor[interceptorNumber].objective.x - interceptor[interceptorNumber].origin.x) * Interceptor.INTERCEPTOR_SPEED / module;
+                sideY = (interceptor[interceptorNumber].objective.y - interceptor[interceptorNumber].origin.y) * Interceptor.INTERCEPTOR_SPEED / module;
 
                 interceptor[interceptorNumber].speed = new Vector2(sideX, sideY);
 
